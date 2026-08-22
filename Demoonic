@@ -5,7 +5,6 @@ local Player = game:GetService("Players").LocalPlayer
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
-local TeleportService = game:GetService("TeleportService")
 
 local Theme = {
 	Panel = Color3.fromRGB(18, 18, 20),
@@ -498,7 +497,7 @@ local function toggleFly(state)
 	end
 end
 
--- ===== NOCLIP ФУНКЦИИ (улучшенный) =====
+-- ===== NOCLIP ФУНКЦИИ =====
 local noclipEnabled = false
 local noclipConnection = nil
 
@@ -553,7 +552,7 @@ local function toggleInvisible(state)
 	updateInvisible()
 end
 
--- ===== TELEPORT TOOLS (исправленный) =====
+-- ===== TELEPORT TOOLS =====
 local function teleportTools()
 	local char = Player.Character
 	if not char then return end
@@ -563,7 +562,6 @@ local function teleportTools()
 	local toolCount = 0
 	local spawnedItems = Workspace:FindFirstChild("Spawned Items")
 	
-	-- Собираем все туллы из папки Spawned Items
 	if spawnedItems then
 		for _, item in ipairs(spawnedItems:GetChildren()) do
 			if item:IsA("Tool") then
@@ -581,7 +579,6 @@ local function teleportTools()
 		end
 	end
 	
-	-- Собираем все туллы из Workspace (кроме тех, что в Spawned Items)
 	for _, item in ipairs(Workspace:GetChildren()) do
 		if item:IsA("Tool") then
 			local isInSpawned = false
@@ -637,16 +634,13 @@ local function teleportToCoords()
 	
 	local wasNoclip = noclipEnabled
 	
-	-- Включаем ноклип
 	if not wasNoclip then
 		toggleNoclip(true)
 		task.wait(0.1)
 	end
 	
-	-- Телепортируем
 	rootPart.CFrame = CFrame.new(-132.4492950439453, 3.648467540740967, 97.95744323730469)
 	
-	-- Ждем и выключаем ноклип
 	task.wait(0.5)
 	if not wasNoclip then
 		toggleNoclip(false)
@@ -687,7 +681,7 @@ local function stealToolsFromPlayer(targetPlayer)
 	print("Stolen " .. toolsStolen .. " tools from " .. targetPlayer.Name)
 end
 
--- ===== KILL PLAYER (кик с сервера) =====
+-- ===== KICK PLAYER =====
 local function kickPlayer(targetPlayer)
 	if not targetPlayer or targetPlayer == Player then 
 		print("Cannot kick yourself!")
@@ -860,7 +854,7 @@ local function createActionButton(name, parent, layoutOrder, callback)
 	return frame
 end
 
--- ===== КНОПКА С ВЫБОРОМ ИГРОКА (улучшенная) =====
+-- ===== КНОПКА С ВЫБОРОМ ИГРОКА =====
 local function createPlayerSelectButton(name, parent, layoutOrder, actionType)
 	local frame = Instance.new("Frame", parent)
 	frame.Size = UDim2.new(1, -32, 0, 34)
@@ -868,7 +862,6 @@ local function createPlayerSelectButton(name, parent, layoutOrder, actionType)
 	frame.LayoutOrder = layoutOrder or 0
 	frame.BackgroundTransparency = 1
 
-	-- Кнопка выбора игрока
 	local selectBtn = Instance.new("TextButton", frame)
 	selectBtn.Size = UDim2.new(0.45, 0, 0, 34)
 	selectBtn.Position = UDim2.new(0, 0, 0, 0)
@@ -885,7 +878,6 @@ local function createPlayerSelectButton(name, parent, layoutOrder, actionType)
 	selectStroke.Color = Theme.Stroke
 	selectStroke.Transparency = 0.55
 
-	-- Кнопка действия
 	local actionBtn = Instance.new("TextButton", frame)
 	actionBtn.Size = UDim2.new(0.5, -8, 0, 34)
 	actionBtn.Position = UDim2.new(0.5, 8, 0, 0)
@@ -902,7 +894,6 @@ local function createPlayerSelectButton(name, parent, layoutOrder, actionType)
 	actionStroke.Color = Theme.Stroke
 	actionStroke.Transparency = 0.55
 
-	-- Выпадающий список
 	local dropList = Instance.new("ScrollingFrame", selectBtn)
 	dropList.Size = UDim2.new(1, 0, 0, 0)
 	dropList.Position = UDim2.new(0, 0, 1, 4)
